@@ -3,10 +3,64 @@ import './Layout.css';
 import { FormGroup, Input, Label, Form, Row, Col,InputGroup,Button } from 'reactstrap';
 import OrderSum from './OrderSum';
 import { Link } from 'react-router-dom';
-
+import { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 export default function OrderForm() {
    
+   const initialForm = {
+        
+        boyut: "",
+        hamur: "",
+        Pepperoni: false,
+        Kabak: false,
+        Mısır:false,
+        Sarımsak:false,
+        Ananas:false,
+        Sosis:false,
+        Soğan:false,
+        Sucuk:false,
+        Biber:false,
+        TavukIzgara:false,
+        Domates:false,
+        KanadaJambonu:false,
+        Jalapeno:false,
+        Salam:false,
+       
+        not: "",
+   };
+
+ 
+       
+   const [form, setForm] = useState(initialForm);
+const [total, setTotal] = useState(0);
+
+   const handleChange = (event) => {
+   
+   
+        let { name, value, type } = event.target;
+        value = type === 'checkbox' ? event.target.checked : value;
+        setForm({ ...form, [name]: value });
+       
+   
+   };
+
+
+ 
+  
+   
+   useEffect(() => {
+
+        setTotal((Object.entries(form).filter(([key,value]) => value === true).length * 5));
+   
+  }, [form]);
+
+
+
+
+
+
+
+
   
     return (
         <>
@@ -27,8 +81,10 @@ export default function OrderForm() {
   <h3>Boyut Seç <span className="required">*</span></h3>
   <FormGroup check>
       <Input
-        name="radio1"
+        name="boyut"
         type="radio"
+        value="Küçük"
+        onChange={handleChange}
       />
      
       <Label check>
@@ -37,8 +93,10 @@ export default function OrderForm() {
     </FormGroup>
     <FormGroup check>
       <Input
-        name="radio1"
+        name="boyut"
         type="radio"
+        value="Orta"
+        onChange={handleChange}
       />
      
       <Label check>
@@ -47,8 +105,10 @@ export default function OrderForm() {
     </FormGroup>
     <FormGroup check>
       <Input
-        name="radio1"
+        name="boyut"
         type="radio"
+        value="Büyük"
+        onChange={handleChange}
       />
      
       
@@ -70,19 +130,18 @@ export default function OrderForm() {
     </Label >
     <Input
       id="exampleSelect"
-      name="select"
+      name="hamur"
       type="select"
+      onChange={handleChange}
     >
-      <option className="option" value="" disabled selected >
-        Hamur Kalınlığı
-      </option>
-      <option>
+      
+      <option value="Kalın Hamur">
         Kalın Hamur
       </option>
-      <option>
+      <option value="İnce Hamur">
         İnce Hamur
       </option>
-      <option>
+      <option value="Çok İnce Hamur">
         Çok İnce Hamur
       </option>
     </Input>
@@ -101,7 +160,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Pepperoni" value="Pepperoni" onChange={handleChange} />
     <Label check>
       Pepperoni
     </Label>
@@ -110,7 +169,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Kabak" value="Kabak" onChange={handleChange} />
     <Label check>
       Kabak
     </Label>
@@ -119,7 +178,7 @@ export default function OrderForm() {
     check
     inline 
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Mısır" value="Mısır" onChange={handleChange} />
     <Label check>
       Mısır
     </Label>
@@ -129,7 +188,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Sarımsak" value="Sarımsak" onChange={handleChange} />
     <Label check>
       Sarımsak
     </Label>
@@ -138,7 +197,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Ananas" value="Ananas" onChange={handleChange} />
     <Label check>
       Ananas
     </Label>
@@ -147,7 +206,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Sosis" value="Sosis" onChange={handleChange} />
     <Label check>
       Sosis
     </Label>
@@ -157,7 +216,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Soğan" value="Soğan" onChange={handleChange} />
     <Label check>
       Soğan
     </Label>
@@ -166,7 +225,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Sucuk" value="Sucuk" onChange={handleChange} />
     <Label check>
       Sucuk
     </Label>
@@ -175,7 +234,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Biber" value="Biber" onChange={handleChange} />
     <Label check>
       Biber
     </Label>
@@ -185,7 +244,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="TavukIzgara" value="TavukIzgara" onChange={handleChange} />
     <Label check>
       Tavuk Izgara
     </Label>
@@ -194,7 +253,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Domates" value="Domates" onChange={handleChange} />
     <Label check>
       Domates
     </Label>
@@ -203,7 +262,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="KanadaJambonu" value="KanadaJambonu" onChange={handleChange} />
     <Label check>
       Kanada Jambonu
     </Label>
@@ -213,7 +272,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Jalapeno" value="Jalapeno" onChange={handleChange} />
     <Label check>
       Jalapeno
     </Label>
@@ -222,7 +281,7 @@ export default function OrderForm() {
     check
     inline
   >
-    <Input type="checkbox" />
+    <Input type="checkbox" name="Salam" value="Salam" onChange={handleChange} />
     <Label check>
       Salam
     </Label>
@@ -244,6 +303,8 @@ export default function OrderForm() {
     bsSize="sm"
     className="mb-3"
     placeholder="Siparişine eklemek istediğin bir not var mı?"
+    name="not"
+    onChange={handleChange}
   />
 </Form>
 <hr/>
@@ -264,7 +325,7 @@ export default function OrderForm() {
     <div className="orderForm-container-button-price-total">
       <h3 className="total-h3">Sipariş Toplamı</h3>
       <div className="orderForm-container-button-price-total-price">
-                <OrderSum/>
+                <OrderSum total={total}/>
       </div>
     </div>
    <Link to="/orderStatus"> <button  className="price-button">SİPARİŞ VER</button></Link>
