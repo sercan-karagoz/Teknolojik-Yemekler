@@ -3,7 +3,7 @@ import './Layout.css';
 import { FormGroup, Input, Label, Form, Row, Col,InputGroup,Button } from 'reactstrap';
 import OrderSum from './OrderSum';
 import { Link } from 'react-router-dom';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useMemo ,useCallback} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 export default function OrderForm() {
    
@@ -33,27 +33,50 @@ export default function OrderForm() {
        
    const [form, setForm] = useState(initialForm);
 const [total, setTotal] = useState(0);
+const [isValid, setIsValid] = useState(false);
 
-   const handleChange = (event) => {
    
+
+
+/*   const handleChange = (event) => {
+        let { name, value, type } = event.target;
+        value = type === 'checkbox' ? event.target.checked : value;
+        setForm({ ...form, [name]: value });
+   }; */
+
+
+const handleChange = useCallback((event) => {
+    
    
         let { name, value, type } = event.target;
         value = type === 'checkbox' ? event.target.checked : value;
         setForm({ ...form, [name]: value });
        
    
-   };
+   }, [form]);
 
 
  
-  
+  /* useEffect(() => {
+        setTotal((Object.entries(form).filter(([key,value]) => value === true).length * 5));
+        if (form.boyut ==="" || form.hamur ==="" ) {
+            setIsValid(false);
+        }else{
+            setIsValid(true);
+        }
+  }, [form]); */
    
-   useEffect(() => {
+   useMemo(() => {
 
         setTotal((Object.entries(form).filter(([key,value]) => value === true).length * 5));
-   
+       
+        if (form.boyut ==="" || form.hamur ==="" ) {
+            setIsValid(false);
+        }else{
+            setIsValid(true);
+        }
+        
   }, [form]);
-
 
 
 
@@ -134,7 +157,9 @@ const [total, setTotal] = useState(0);
       type="select"
       onChange={handleChange}
     >
-      
+       <option value="">
+        
+      </option>
       <option value="Kalın Hamur">
         Kalın Hamur
       </option>
@@ -328,7 +353,7 @@ const [total, setTotal] = useState(0);
                 <OrderSum total={total}/>
       </div>
     </div>
-   <Link to="/orderStatus"> <button  className="price-button">SİPARİŞ VER</button></Link>
+   <Link to="/orderStatus"> <button disabled={!isValid} className="price-button">SİPARİŞ VER</button></Link>
   </div>
     </div>
   </main>
