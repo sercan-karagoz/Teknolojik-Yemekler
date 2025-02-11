@@ -10,7 +10,7 @@ export default function Home() {
         <img src={logo} alt="logo" />
        
     <h1>KOD ACIKTIRIR<br />PİZZA, DOYURUR</h1>
-   <Link to="/orderForm"> <button>ACIKTIM</button></Link>
+   <Link to="/orderForm"> <button className="home-button">ACIKTIM</button></Link>
       </div>
     );
   }

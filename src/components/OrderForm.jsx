@@ -5,7 +5,7 @@ import OrderSum from './OrderSum';
 import { Link } from 'react-router-dom';
 import { useState,useEffect,useMemo ,useCallback} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-export default function OrderForm() {
+export default function OrderForm({form,setForm}) {
    
    const initialForm = {
         
@@ -25,14 +25,15 @@ export default function OrderForm() {
         KanadaJambonu:false,
         Jalapeno:false,
         Salam:false,
-       
+        adet:1,
         not: "",
    };
 
  
        
-   const [form, setForm] = useState(initialForm);
-const [total, setTotal] = useState(0);
+  // const [form, setForm] = useState(initialForm);
+const [secim, setSecim] = useState(0);
+const [total, setTotal] = useState(85.5);
 const [isValid, setIsValid] = useState(false);
 
    
@@ -44,6 +45,16 @@ const [isValid, setIsValid] = useState(false);
         setForm({ ...form, [name]: value });
    }; */
 
+const handleIncrement = useCallback(() => {
+    
+    const newAdet = Number(form.adet) + 1;
+    setForm({ ...form, adet: newAdet });
+}, [form]);
+
+const handleDecrement = useCallback(() => {
+    const newAdet = Number(form.adet) <= 1 ? 1 : Number(form.adet) - 1;
+    setForm({ ...form, adet: newAdet });
+}, [form]);
 
 const handleChange = useCallback((event) => {
     
@@ -55,7 +66,7 @@ const handleChange = useCallback((event) => {
    
    }, [form]);
 
-
+console.log(form);
  
   /* useEffect(() => {
         setTotal((Object.entries(form).filter(([key,value]) => value === true).length * 5));
@@ -67,10 +78,11 @@ const handleChange = useCallback((event) => {
   }, [form]); */
    
    useMemo(() => {
+        let minMax = Object.entries(form).filter(([key,value]) => value === true).length
+        setSecim((minMax * 5));
+        setTotal(((minMax * 5)+85.5) * Number(form.adet));
 
-        setTotal((Object.entries(form).filter(([key,value]) => value === true).length * 5));
-       
-        if (form.boyut ==="" || form.hamur ==="" ) {
+        if (form.boyut ==="" || form.hamur ===""  || minMax < 4 || minMax > 10)  {
             setIsValid(false);
         }else{
             setIsValid(true);
@@ -102,7 +114,7 @@ const handleChange = useCallback((event) => {
   <div className="orderForm-container-main-container">
   <div className="orderForm-container-main-radio">
   <h3>Boyut Seç <span className="required">*</span></h3>
-  <FormGroup check>
+  <FormGroup  check>
       <Input
         name="boyut"
         type="radio"
@@ -166,8 +178,8 @@ const handleChange = useCallback((event) => {
       <option value="İnce Hamur">
         İnce Hamur
       </option>
-      <option value="Çok İnce Hamur">
-        Çok İnce Hamur
+      <option value="Normal Hamur">
+       Normal Hamur
       </option>
     </Input>
   </FormGroup>
@@ -337,11 +349,11 @@ const handleChange = useCallback((event) => {
 <div className="orderForm-container-button">
     <div className="orderForm-container-button-counter">
 <InputGroup>
-    <Button style={{ backgroundColor: '#FDC913', border: 'none', color: 'black' }}>
+    <Button style={{ backgroundColor: '#FDC913', border: 'none', color: 'black' }} onClick={handleDecrement}>
       -
     </Button>
-    <Input placeholder="1" className="counter-input" />
-    <Button  style={{ backgroundColor: '#FDC913', border: 'none', color: 'black' }}>
+    <Input name="adet" placeholder="1" className="counter-input" onChange={handleChange} value={form.adet} />
+    <Button  style={{ backgroundColor: '#FDC913', border: 'none', color: 'black' }} onClick={handleIncrement}>
       +
     </Button>
   </InputGroup>
@@ -350,10 +362,10 @@ const handleChange = useCallback((event) => {
     <div className="orderForm-container-button-price-total">
       <h3 className="total-h3">Sipariş Toplamı</h3>
       <div className="orderForm-container-button-price-total-price">
-                <OrderSum total={total}/>
+                <OrderSum secim={secim} total={total}/>
       </div>
     </div>
-   <Link to="/orderStatus"> <button disabled={!isValid} className="price-button">SİPARİŞ VER</button></Link>
+   <Link to="/orderStatus" > <button disabled={!isValid} className="price-button">SİPARİŞ VER</button></Link>
   </div>
     </div>
   </main>
