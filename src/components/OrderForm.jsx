@@ -5,9 +5,9 @@ import OrderSum from './OrderSum';
 import { Link } from 'react-router-dom';
 import { useState,useEffect,useMemo ,useCallback} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-export default function OrderForm({form,setForm}) {
+export default function OrderForm({form,setForm,total,setTotal,secim,setSecim,isValid,setIsValid}) {
    
-   const initialForm = {
+  /* const initialForm = {
         
         boyut: "",
         hamur: "",
@@ -28,13 +28,13 @@ export default function OrderForm({form,setForm}) {
         adet:1,
         not: "",
    };
-
+*/
  
        
   // const [form, setForm] = useState(initialForm);
-const [secim, setSecim] = useState(0);
-const [total, setTotal] = useState(85.5);
-const [isValid, setIsValid] = useState(false);
+//const [secim, setSecim] = useState(0);
+//const [total, setTotal] = useState(85.5);
+//const [isValid, setIsValid] = useState(false);
 
    
 
@@ -77,7 +77,7 @@ console.log(form);
         }
   }, [form]); */
    
-   useMemo(() => {
+   /*useMemo(() => {
         let minMax = Object.entries(form).filter(([key,value]) => value === true).length
         setSecim((minMax * 5));
         setTotal(((minMax * 5)+85.5) * Number(form.adet));
@@ -89,10 +89,7 @@ console.log(form);
         }
         
   }, [form]);
-
-
-
-
+*/
 
 
 
